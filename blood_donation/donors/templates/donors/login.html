@@ -1,9 +1,12 @@
 {% extends 'donors/base.html' %}
+
 {% block content %}
-    <h2>{{ view.action }} Donor</h2>
+<div class="container mt-5">
+    <h2>Login</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
+</div>
 {% endblock %}
