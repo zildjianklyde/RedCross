@@ -1,4 +1,4 @@
-/* General styles */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -6,7 +6,6 @@ body {
     padding: 0;
 }
 
-/* Login container */
 .container {
     max-width: 400px;
     margin: 50px auto;
@@ -17,14 +16,12 @@ body {
     text-align: center;
 }
 
-/* Heading */
 h2 {
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
 }
 
-/* Form fields */
 form {
     text-align: left;
 }
@@ -53,7 +50,7 @@ form .btn-primary:hover {
     background-color: #ad2803;
 }
 
-/* Links */
+
 a {
     color: #e6410f;
     text-decoration: none;
