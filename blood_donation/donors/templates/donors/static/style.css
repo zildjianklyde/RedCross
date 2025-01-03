@@ -1,50 +1,64 @@
-/* General styling */
+/* General styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
 }
 
-h1, h2 {
-    color: #333;
-    text-align: center;
-}
-
-/* Table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+/* Login container */
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
     background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-th {
-    background-color: #007bff;
-    color: white;
+/* Heading */
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 }
 
-/* Button styling */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 14px;
-    text-decoration: none;
-    color: white;
-    background-color: #007bff;
+/* Form fields */
+form {
+    text-align: left;
+}
+
+form .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form .btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #d42c0a;
     border: none;
     border-radius: 5px;
+    color: rgb(179, 15, 15);
+    font-size: 16px;
     cursor: pointer;
-    margin: 5px;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+form .btn-primary:hover {
+    background-color: #ad2803;
+}
+
+/* Links */
+a {
+    color: #e6410f;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
