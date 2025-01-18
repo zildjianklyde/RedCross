@@ -6,11 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-<<<<<<< HEAD
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'redcross.settings')
-=======
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'red_cross_management.settings')
->>>>>>> 0507e5de2755be82f541f44f2e11ca6deddd8d6d
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blood_donation.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

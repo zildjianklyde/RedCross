@@ -1,0 +1,26 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+<header class="navbar" id="navbar">
+    <div class="navbar-container">
+        <a href="{% url 'home' %}" class="nav-link">Home</a>
+        <a href="{% url 'about' %}" class="nav-link">About</a>
+        <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+    </div>
+</header>
+
+<script>
+    // JavaScript to hide navbar on scroll
+    let lastScrollTop = 0;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', function() {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScroll > lastScrollTop) {
+            navbar.style.top = '-60px'; // Hide navbar
+        } else {
+            navbar.style.top = '0'; // Show navbar
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For Mobile or negative scrolling
+    });
+</script>

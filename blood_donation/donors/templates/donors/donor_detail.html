@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Donor Details</h2>
+    <p><strong>Name:</strong> {{ object.name }}</p>
+    <p><strong>Blood Type:</strong> {{ object.blood_type }}</p>
+    <p><strong>Contact Info:</strong> {{ object.contact_info }}</p>
+    <p><strong>Last Donation Date:</strong> {{ object.last_donation_date }}</p>
+    <a href="{% url 'donor_list' %}" class="btn btn-secondary">Back</a>
+{% endblock %}
+
