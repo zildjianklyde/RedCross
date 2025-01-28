@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-# Create your models here.
+from django.contrib.auth.models import User
 
 class database(models.Model):
     name = models.CharField(max_length=100)
@@ -12,4 +12,24 @@ class database(models.Model):
 
     def get_absolute_url(self):
         return reverse("list")
-    
+    class Donor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    blood_type = models.CharField(max_length=3, choices=[
+        ('A+', 'A+'), ('A-', 'A-'),
+        ('B+', 'B+'), ('B-', 'B-'),
+        ('AB+', 'AB+'), ('AB-', 'AB-'),
+        ('O+', 'O+'), ('O-', 'O-'),
+    ])
+    last_donation_date = models.DateField(null=True, blank=True)
+    is_eligible = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+    def update_eligibility(self):
+        from datetime import date, timedelta
+        if self.last_donation_date:
+            self.is_eligible = (date.today() - self.last_donation_date) >= timedelta(days=90)
+        else:
+            self.is_eligible = True
+        self.save()
