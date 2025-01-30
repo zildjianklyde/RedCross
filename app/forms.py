@@ -38,3 +38,11 @@ def send_donation_reminders():
                 [donor.user.email],
                 fail_silently=False,
             )
+class EditDonorForm(forms.ModelForm):
+    class Meta:
+        model = Donor
+        fields = ['user', 'blood_type', 'last_donation_date', 'is_eligible']
+        widgets = {
+            'user': forms.Select(attrs={'class': 'form-control'}),
+            'last_donation_date': forms.DateInput(attrs={'type': 'date'}),
+        }

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth import login, logout, authenticate
@@ -7,6 +7,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .models import Donor, Database
 from .forms import RegistrationForm
+from .models import Donor
+from .forms import EditDonorForm  
 
 # Landing Page
 def landing_page(request):
@@ -70,6 +72,9 @@ def admin_dashboard(request):
         return redirect('donor_dashboard')
     donors = Donor.objects.all()
     return render(request, 'admin_dashboard.html', {'donors': donors})
+@login_required
+def profile(request):
+    return redirect('donor_dashboard')  # Or create a dedicated profile page
 
 # CRUD Views for Admin
 class IndexView(TemplateView):
@@ -95,3 +100,29 @@ class UpdateView(UpdateView):
     model = Database
     template_name = 'update.html'
     fields = ['name', 'status', 'email', 'contact', 'blood', 'date']
+@login_required
+def manage_users(request):
+    if not request.user.is_superuser:
+        return redirect('donor_dashboard')
+    donors = Donor.objects.all()
+    return render(request, 'admin_panel/manage_users.html', {'donors': donors})
+
+@login_required
+def edit_user(request, pk):
+    donor = get_object_or_404(Donor, pk=pk)
+    if request.method == 'POST':
+        form = EditDonorForm(request.POST, instance=donor)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_users')
+    else:
+        form = EditDonorForm(instance=donor)
+    return render(request, 'admin_panel/edit_user.html', {'form': form})
+
+@login_required
+def delete_user(request, pk):
+    donor = get_object_or_404(Donor, pk=pk)
+    if request.method == 'POST':
+        donor.user.delete()
+        return redirect('manage_users')
+    return render(request, 'admin_panel/delete_user.html', {'donor': donor})

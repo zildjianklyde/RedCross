@@ -9,6 +9,10 @@ urlpatterns = [
     path('eligibility/', views.eligibility_check, name='eligibility_check'),
     path('donor_dashboard/', views.donor_dashboard, name='donor_dashboard'),
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/manage-users/', views.manage_users, name='manage_users'),
+    path('admin/edit-user/<int:pk>/', views.edit_user, name='edit_user'),
+    path('admin/delete-user/<int:pk>/', views.delete_user, name='delete_user'),
+    path('profile/', views.profile, name='profile'),
 
     path('index/', views.IndexView.as_view(), name='index'),
     path('list/', views.ListView.as_view(), name='list'),
