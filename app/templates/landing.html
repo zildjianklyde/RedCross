@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Red Cross Blood Donation</h1>
+    <p class="lead">Save lives by donating blood. Check your eligibility today!</p>
+    <hr class="my-4">
+    <a class="btn btn-danger btn-lg" href="{% url 'register' %}" role="button">Register Now</a>
+</div>
+{% endblock %}
