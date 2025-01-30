@@ -16,16 +16,28 @@ class Database(models.Model):
 
 # Donor model for detailed donor-specific information
 class Donor(models.Model):
+    BLOOD_TYPE_CHOICES = [
+        ('A+', 'A+'),
+        ('A-', 'A-'),
+        ('B+', 'B+'),
+        ('B-', 'B-'),
+        ('AB+', 'AB+'),
+        ('AB-', 'AB-'),
+        ('O+', 'O+'),
+        ('O-', 'O-'),
+    ]
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    blood_type = models.CharField(max_length=3, choices=[
-        ('A+', 'A+'), ('A-', 'A-'),
-        ('B+', 'B+'), ('B-', 'B-'),
-        ('AB+', 'AB+'), ('AB-', 'AB-'),
-        ('O+', 'O+'), ('O-', 'O-'),
-    ])
+    blood_type = models.CharField(
+        max_length=3,
+        choices=BLOOD_TYPE_CHOICES
+    )
     last_donation_date = models.DateField(null=True, blank=True)
     is_eligible = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"{self.user.username} ({self.blood_type})"
+    
     def update_eligibility(self):
         from datetime import date, timedelta
         if self.last_donation_date:

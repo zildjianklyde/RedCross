@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from .models import Donor
 from django.core.mail import send_mail
 from datetime import date, timedelta
-from .models import Donor
+from django.contrib.auth.forms import UserCreationForm
+from .models import Donor, User
 
 class RegistrationForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
@@ -14,6 +15,8 @@ class RegistrationForm(forms.ModelForm):
         ('AB+', 'AB+'), ('AB-', 'AB-'),
         ('O+', 'O+'), ('O-', 'O-'),
     ], label="Blood Type")
+    last_donation_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    is_eligible = forms.BooleanField(required=False)
 
     class Meta:
         model = User
@@ -41,8 +44,25 @@ def send_donation_reminders():
 class EditDonorForm(forms.ModelForm):
     class Meta:
         model = Donor
-        fields = ['user', 'blood_type', 'last_donation_date', 'is_eligible']
+        fields = ['blood_type', 'last_donation_date', 'is_eligible']
         widgets = {
-            'user': forms.Select(attrs={'class': 'form-control'}),
-            'last_donation_date': forms.DateInput(attrs={'type': 'date'}),
+            'last_donation_date': forms.DateInput(attrs={'type': 'date'})
         }
+
+class DonorCreationForm(UserCreationForm):
+    blood_type = forms.ChoiceField(
+       choices=Donor.BLOOD_TYPE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    last_donation_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    is_eligible = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2', 'blood_type', 'last_donation_date', 'is_eligible']

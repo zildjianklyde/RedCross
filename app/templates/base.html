@@ -1,18 +1,24 @@
-<!DOCTYPE html>
+
 <html>
 <head>
     <title>Red Cross Blood Donation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="{% url 'landing' %}">Red Cross</a>
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                <a class="nav-link" href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'donor_dashboard' %}">Dashboard</a>
                 <a class="nav-link" href="{% url 'donor_dashboard' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                {% endif %}
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                     <a class="nav-link" href="{% url 'register' %}">Register</a>
@@ -20,6 +26,16 @@
             </div>
         </div>
     </nav>
+    <div class="container mt-2">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>

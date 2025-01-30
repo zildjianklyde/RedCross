@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3>Create New Donor</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please correct the issues below.
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="row g-3">
+                            <!-- Username -->
+                            <div class="col-md-6">
+                                <label class="form-label">Username</label>
+                                {{ form.username|add_class:"form-control" }}
+                                {% for error in form.username.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                {{ form.email|add_class:"form-control" }}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Password 1 -->
+                            <div class="col-md-6">
+                                <label class="form-label">Password</label>
+                                {{ form.password1|add_class:"form-control" }}
+                                {% for error in form.password1.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Password 2 -->
+                            <div class="col-md-6">
+                                <label class="form-label">Confirm Password</label>
+                                {{ form.password2|add_class:"form-control" }}
+                                {% for error in form.password2.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Blood Type -->
+                            <div class="col-md-4">
+                                <label class="form-label">Blood Type</label>
+                                {{ form.blood_type|add_class:"form-select" }}
+                                {% for error in form.blood_type.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Last Donation Date -->
+                            <div class="col-md-4">
+                                <label class="form-label">Last Donation Date</label>
+                                {{ form.last_donation_date|add_class:"form-control"|attr:"type:date" }}
+                                {% for error in form.last_donation_date.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Eligibility Status -->
+                            <div class="col-md-4">
+                                <label class="form-label">Eligibility Status</label>
+                                <div class="form-check form-switch mt-2">
+                                    {{ form.is_eligible|add_class:"form-check-input" }}
+                                    <label class="form-check-label"></label>
+                                </div>
+                                {% for error in form.is_eligible.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a href="{% url 'manage_users' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Create Donor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

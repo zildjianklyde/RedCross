@@ -1,0 +1,4 @@
+<h1>Welcome, {{ donor.user.get_full_name }}</h1>
+<p>Blood Type: {{ donor.blood_type }}</p>
+<p>Eligible to Donate: {{ donor.is_eligible|yesno:"Yes,No" }}</p>
+<p>Last Donation Date: {{ donor.last_donation_date|default:"Never" }}</p>
