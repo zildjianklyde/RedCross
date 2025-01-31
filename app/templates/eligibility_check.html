@@ -1,21 +1,163 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2>Eligibility Check</h2>
-        <div class="card">
-            <div class="card-body">
-                <p class="card-text">
-                    Blood Type: {{ donor.blood_type }}<br>
-                    Last Donation: {{ donor.last_donation_date|default:"Never" }}<br>
-                    Eligibility: {{ donor.is_eligible|yesno:"Eligible,Not Eligible" }}
-                </p>
-                {% if donor.is_eligible %}
-                    <a href="#" class="btn btn-danger">Schedule Donation</a>
-                {% endif %}
+<div class="eligibility-container">
+    <h1>Blood Donation Eligibility Check</h1>
+    <p class="subtitle">Please answer these questions honestly to determine if you can donate today</p>
+
+    <form method="post" class="eligibility-form">
+        {% csrf_token %}
+        
+        <!-- Basic Requirements -->
+        <div class="form-section">
+            <h2>Basic Information</h2>
+            <div class="form-group">
+                <label>Are you between 17-65 years old?</label>
+                <div class="radio-group">
+                    <input type="radio" name="age" id="age_yes" required>
+                    <label for="age_yes">Yes</label>
+                    <input type="radio" name="age" id="age_no" required>
+                    <label for="age_no">No</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Do you weigh at least 50kg (110 lbs)?</label>
+                <div class="radio-group">
+                    <input type="radio" name="weight" id="weight_yes" required>
+                    <label for="weight_yes">Yes</label>
+                    <input type="radio" name="weight" id="weight_no" required>
+                    <label for="weight_no">No</label>
+                </div>
             </div>
         </div>
-    </div>
+
+        <!-- Health Status -->
+        <div class="form-section warning-section">
+            <h2>Current Health Status</h2>
+            <div class="form-group">
+                <label class="warning-label">Are you currently feeling unwell or have any of these?</label>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="symptoms">
+                        Fever, cold, or cough
+                    </label>
+                    <label>
+                        <input type="checkbox" name="symptoms">
+                        Open wounds/skin infections
+                    </label>
+                    <label>
+                        <input type="checkbox" name="symptoms">
+                        Pregnancy (current or recent 6 months)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical History -->
+        <div class="form-section warning-section">
+            <h2>Medical History</h2>
+            <div class="form-group">
+                <label class="warning-label">Have you ever had:</label>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="medical_history">
+                        HIV/AIDS or positive HIV test
+                    </label>
+                    <label>
+                        <input type="checkbox" name="medical_history">
+                        Ebola or malaria (last 3 years)
+                    </label>
+                    <label>
+                        <input type="checkbox" name="medical_history">
+                        Organ transplant (last 3 months)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="form-section">
+            <h2>Recent Activities</h2>
+            <div class="form-group">
+                <label>Have you done any of these in the last 3 months?</label>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="recent_activities">
+                        Tattoo/piercing
+                    </label>
+                    <label>
+                        <input type="checkbox" name="recent_activities">
+                        Travel to malaria-risk areas
+                    </label>
+                    <label>
+                        <input type="checkbox" name="recent_activities">
+                        Blood thinner medication
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <p class="disclaimer">By submitting, you confirm that you've read and answered truthfully</p>
+            <button type="submit" class="submit-btn">Check Eligibility</button>
+        </div>
+    </form>
 </div>
+
+<style>
+.eligibility-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.form-section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.warning-section {
+    border-color: #ffeeba;
+    background-color: #fff3cd;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.radio-group, .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.submit-btn {
+    background: #cc0000;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.disclaimer {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 1.5rem 0;
+}
+
+.warning-label {
+    color: #856404;
+    font-weight: bold;
+}
+</style>
 {% endblock %}

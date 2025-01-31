@@ -14,7 +14,7 @@ class NotifyEligibleDonors(CronJobBase):
 
     def do(self):
         try:
-            # Calculate eligibility date (90 days ago)
+            #  (90 days ago)
             eligibility_date = timezone.now().date() - timedelta(days=90)
             
             # Find donors who donated more than 3 months ago or never donated
@@ -46,7 +46,7 @@ Thank you for saving lives!
         send_mail(
             subject,
             message,
-            None,  # Uses DEFAULT_FROM_EMAIL
+            None,  
             [donor.user.email],
             fail_silently=False,
         )

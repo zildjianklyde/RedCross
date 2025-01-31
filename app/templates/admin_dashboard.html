@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for donor in donors %}
+                            {% for donor in donors %} %}
                             <tr>
                                 <td>{{ donor.id }}</td>
                                 <td>{{ donor.user.username }}</td>
@@ -54,11 +54,11 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <a href="{% url 'update_donor' donor.id %}" class="btn btn-sm btn-warning"> update
-                                        <i class="bi bi-pencil"></i>
+                                    <a href="{% url 'update_donor' donor.id %}" class="btn btn-sm btn-warning">
+                                        Update <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="{% url 'delete_donor' donor.id %}" class="btn btn-sm btn-danger"> delete
-                                        <i class="bi bi-trash"></i>
+                                    <a href="{% url 'delete_donor' donor.id %}" class="btn btn-sm btn-danger">
+                                        Delete <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
                             </tr>

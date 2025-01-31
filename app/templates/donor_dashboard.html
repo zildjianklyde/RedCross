@@ -1,92 +1,189 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="container">
-    <!-- Donor Header -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="bg-danger p-3 text-white rounded">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h3>Welcome, {{ donor.user.username }}</h3>
-                        <p class="mb-0">Blood Donation Portal</p>
-                    </div>
-                    <div>
-                        <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
-                    </div>
-                </div>
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="welcome-message">
+            <h1>Welcome, {{ donor.user.get_full_name }}</h1>
+            <p class="blood-type">Blood Type: <strong>{{ donor.blood_type }}</strong></p>
+        </div>
+        <div class="eligibility-status">
+            <div class="status-card {% if donor.is_eligible %}eligible{% else %}not-eligible{% endif %}">
+                <h3>{% if donor.is_eligible %}Eligible to Donate{% else %}Not Currently Eligible{% endif %}</h3>
+                <p>Last Donation: {{ donor.last_donation_date|default:"Never" }}</p>
+                {% if donor.is_eligible %}
+                    <p>Next Available: {{ donor.next_eligible_date|date:"M j, Y" }}</p>
+                {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Donor Information Card -->
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h5>Your Donation Status</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="h5">
-                                Blood Type: 
-                                <span class="badge bg-danger">{{ donor.blood_type }}</span>
-                            </p>
-                            <p>Last Donation: {{ donor.last_donation_date|default:"Never" }}</p>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <div class="alert {% if donor.is_eligible %}alert-success{% else %}alert-danger{% endif %}">
-                                <h4 class="alert-heading">
-                                    {% if donor.is_eligible %}
-                                        You're Eligible!
-                                    {% else %}
-                                        Not Eligible Yet
-                                    {% endif %}
-                                </h4>
-                                <p class="mb-0">
-                                    Next eligible donation: 
-                                    {{ donor.next_eligible_date|date:"F j, Y" }}
-                                </p>
-                            </div>
-                            <a href="{% url 'eligibility_check' %}" class="btn btn-danger">
-                                Check Eligibility Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    <!-- Preparation Steps -->
+    <div class="preparation-section">
+        <h2 class="section-title">Preparation Guide</h2>
+        <div class="steps-container">
+            <div class="step-card">
+                <h3>Before Donation</h3>
+                <ol>
+                    <li>Get 6-8 hours of sleep</li>
+                    <li>Eat a healthy meal (avoid fatty foods)</li>
+                    <li>Drink extra fluids</li>
+                    <li>Avoid alcohol for 24 hours</li>
+                </ol>
+            </div>
+            
+            <div class="step-card">
+                <h3>During Donation</h3>
+                <ol>
+                    <li>Relax and breathe normally</li>
+                    <li>Inform staff if you feel unwell</li>
+                    <li>Process takes 10-15 minutes</li>
+                </ol>
+            </div>
+            
+            <div class="step-card">
+                <h3>After Donation</h3>
+                <ol>
+                    <li>Rest for 10-15 minutes</li>
+                    <li>Drink plenty of fluids</li>
+                    <li>Avoid heavy lifting for 24h</li>
+                    <li>Keep bandage for 4-6 hours</li>
+                </ol>
             </div>
         </div>
     </div>
 
     <!-- Donation History -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5>Donation History</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Location</th>
-                                <th>Amount (ml)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Add donation history data here -->
-                            <tr>
-                                <td>2023-07-15</td>
-                                <td>Main Blood Center</td>
-                                <td>450</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="donation-history">
+        <h2 class="section-title">Donation History</h2>
+        <table class="donation-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2023-07-15</td>
+                    <td>Main Blood Center</td>
+                    <td>450ml</td>
+                    <td>Completed</td>
+                </tr>
+                <!-- Add more rows dynamically -->
+            </tbody>
+        </table>
     </div>
 </div>
+
+<style>
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.dashboard-header {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 3rem;
+}
+
+.welcome-message h1 {
+    color: #dc3545;
+    margin-bottom: 0.5rem;
+}
+
+.blood-type {
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+.status-card {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+.status-card.eligible {
+    background: #28a745;
+}
+
+.status-card.not-eligible {
+    background: #dc3545;
+}
+
+.preparation-section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    color: #dc3545;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.steps-container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.step-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.05);
+}
+
+.step-card h3 {
+    color: #dc3545;
+    margin-bottom: 1rem;
+}
+
+.step-card ol {
+    padding-left: 1.5rem;
+}
+
+.step-card li {
+    margin-bottom: 0.5rem;
+}
+
+.donation-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.05);
+}
+
+.donation-table th,
+.donation-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.donation-table th {
+    background: #dc3545;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .steps-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 {% endblock %}

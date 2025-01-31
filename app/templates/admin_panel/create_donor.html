@@ -33,7 +33,7 @@
                             <!-- Email -->
                             <div class="col-md-6">
                                 <label class="form-label">Email</label>
-                                {{ form.email|add_class:"form-control" }}
+                                {{ form.email|add_class:"form-control"|attr:"placeholder:name@example.com" }}
                                 {% for error in form.email.errors %}
                                     <div class="text-danger small">{{ error }}</div>
                                 {% endfor %}
@@ -60,7 +60,11 @@
                             <!-- Blood Type -->
                             <div class="col-md-4">
                                 <label class="form-label">Blood Type</label>
-                                {{ form.blood_type|add_class:"form-select" }}
+                                <select name="blood_type" class="form-select">
+                                    {% for value, label in form.blood_type.field.choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                    {% endfor %}
+                                </select>
                                 {% for error in form.blood_type.errors %}
                                     <div class="text-danger small">{{ error }}</div>
                                 {% endfor %}
@@ -91,6 +95,18 @@
                         <div class="mt-4 d-flex justify-content-between">
                             <a href="{% url 'manage_users' %}" class="btn btn-secondary">Cancel</a>
                             <button type="submit" class="btn btn-primary">Create Donor</button>
+                            {% if form.errors %}
+<div class="alert alert-danger">
+    <strong>Errors:</strong>
+    <ul>
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li>{{ field|title }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
                         </div>
                     </form>
                 </div>
